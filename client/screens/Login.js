@@ -11,15 +11,13 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     register("identifier");
-    register("password");
-
-    
+    register("password");    
   }, [register])
 
 
   const loginUser = (data) => {
-    // console.log(data);
     login(data);
+    // navigation.navigate("Home");
   }
 
   return (
@@ -27,7 +25,6 @@ const Login = ({ navigation }) => {
       <TextInput onChangeText={text => setValue("identifier", text)} />
       <TextInput onChangeText={text => setValue("password", text)} />
       <Button onPress={handleSubmit(loginUser)} title="Hello" />
-     <Text>{JSON.stringify(auth)}</Text>
     </View>
   )
 }

@@ -3,7 +3,7 @@ import GlobalReducer from "../reducer/GlobalReducer";
 import axios from "axios";
 
 const initialState = {
-  auth: [],
+  auth: null,
   markers: [
     {
       latlng: {
@@ -21,19 +21,18 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(GlobalReducer, initialState);
 
-  
+
   const login = async (data) => {
     console.log("DATA", data);
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    
+
     const body = JSON.stringify(data);
-    
+
     try {
-      const res = await axios.post("http://192.168.100.18:1337/auth/local", body, config);
+      const res = await axios.post("http://192.168.100.18:1337/auth/local", body, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
       // api call
       dispatch({
         type: "LOGIN",
@@ -41,12 +40,12 @@ export const GlobalProvider = ({ children }) => {
       });
 
     } catch (error) {
-      console.error(error);
+      console.error("FUCKING ERROR", error);
     }
   }
 
   return (
-    <GlobalContext.Provider value={{auth: state.auth,login}}>
+    <GlobalContext.Provider value={{ auth: state.auth, login }}>
       {children}
     </GlobalContext.Provider>
   )
