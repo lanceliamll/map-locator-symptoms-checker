@@ -17,7 +17,6 @@ const Login = ({ navigation }) => {
 
   const loginUser = (data) => {
     login(data);
-    // navigation.navigate("Home");
   }
 
   return (

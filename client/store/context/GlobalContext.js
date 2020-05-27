@@ -33,19 +33,36 @@ export const GlobalProvider = ({ children }) => {
           "Content-Type": "application/json"
         }
       });
-      // api call
       dispatch({
         type: "LOGIN",
         payload: res.data
       });
 
     } catch (error) {
-      console.error("FUCKING ERROR", error);
+      console.error("Login user", error);
     }
   }
 
+  const getAllMarkers = async () => {
+    try {
+      const res = await axios.get("http://192.168.100.18:1337/markers", {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      dispatch({
+        type: "GET_MARKERS",
+        payload: res.data
+      });
+
+    } catch (error) {
+      console.error("Get all markers error", error);
+    }
+
+  }
+
   return (
-    <GlobalContext.Provider value={{ auth: state.auth, login }}>
+    <GlobalContext.Provider value={{ auth: state.auth, markers: state.markers, login, getAllMarkers }}>
       {children}
     </GlobalContext.Provider>
   )

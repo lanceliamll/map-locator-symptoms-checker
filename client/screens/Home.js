@@ -6,30 +6,23 @@ import MapView, { Marker } from 'react-native-maps';
 const Home = ({ navigation }) => {
 
   // get globalstate
-  const { auth } = useContext(GlobalContext);
+  const { auth, getAllMarkers, markers } = useContext(GlobalContext);
 
   // current location
   const [currentCoords, setCurrentCoords] = useState(null);
-  const [currentPosition, setCurrentPosition] = useState(null);
+  const [currentPosition, setCurrentPosition] = useState({
+    coords: {
+      "accuracy": 20,
+      "altitude": 0,
+      "heading": 0,
+      "latitude": 14.581537,
+      "longitude": 121.007102,
+      "speed": 0
+    }
+  });
 
   // markers 
   const [currentMarks, setCurrentMarks] = useState([
-    {
-      coords: {
-        latitude: 14.5791282,
-        longitude: 121.0067217
-      },
-      title: 'Foo Pl111ace',
-      subtitle: '1234 Foo Drive'
-    },
-    {
-      coords: {
-        latitude: 14.5792572,
-        longitude: 121.0067200
-      },
-      title: 'Foo Place',
-      subtitle: '1234 Foo Drive'
-    },
   ]);
 
   //Convert degree to rad
@@ -84,24 +77,53 @@ const Home = ({ navigation }) => {
 
     const result = validateCurrentLocation(pos.coords.latitude, pos.coords.longitude, coords.coords.latitude, coords.coords.longitude);
 
-    if (result > 0.3) return;
+    if (result > 0.2) return;
 
     // get markers and post ?
 
-    console.log("Result", result, "Coords1", coords);
+    console.log("Result1", result, "Coords1", coords, "CurrentPos", pos);
     // radius logic
-  }
+  };
+
+  const transformMarkersData = (data) => {
+    return !data.length ? [] : data.map(d => {
+      const transformedData = {
+        id: d.id,
+        coords: {
+          latitude: d.latitude,
+          longitude: d.longitude,
+        },
+        title: d.title,
+        description: d.description,
+        created_at: d.created_at
+      }
+      return transformedData;
+    });
+  };
+
 
   useEffect(() => {
+
+    // transform markers and set to state
+    getAllMarkers();
+
+    // get radius and coords
     getCoords();
     identifyRadius();
+    
+    // get every 30 minutes
     setTimeout(() => {
       getCurrentPosition();
       identifyRadius();
-    }, 10000)
+    }, 1800000);
+
+
+    // get markers
+    const transformed = transformMarkersData(markers);
+    setCurrentMarks(transformed);
+
     //real time 1800000
   }, []);
-
 
   return (
     <View>
@@ -116,16 +138,18 @@ const Home = ({ navigation }) => {
           style={styles.mapStyle}
         >
 
+          {/* render markers */}
           {currentMarks.length ? currentMarks.map((mark, idx) => {
             return (
               <View key={idx}>
                 <Marker
                   coordinate={mark.coords}
                   title={mark.title}
-                  description={"2 people reported that they went in this area."}
+                  description={mark.description}
                 />
               </View>
             )
+            // console.log(currentMarks);
           }) : null}
 
         </MapView>

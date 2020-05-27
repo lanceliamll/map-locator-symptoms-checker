@@ -7,6 +7,11 @@ const GlobalReducer = (state, action) => {
         ...state,
         auth: payload,
       }
+    case "GET_MARKERS":
+      return {
+        ...state,
+        markers: payload
+      }
     default:
       return state;
   }
