@@ -60,7 +60,7 @@ const Home = ({ navigation }) => {
     // get every 30 minutes
     setTimeout(() => {
       getCurrentPosition();
-    }, 15000);
+    }, 1800000);
 
 
     // get markers
