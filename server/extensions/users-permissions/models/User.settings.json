@@ -52,6 +52,10 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "saved_locations": {
+      "via": "user",
+      "collection": "saved-locations"
     }
   }
 }

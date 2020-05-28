@@ -5,14 +5,15 @@ import { useForm } from "react-hook-form"
 
 
 const Login = ({ navigation }) => {
-  const { login, auth } = useContext(GlobalContext);
+  const { login, auth, getCurrentLocation } = useContext(GlobalContext);
 
   const { register, handleSubmit, setValue } = useForm();
 
   useEffect(() => {
     register("identifier");
-    register("password");    
-  }, [register])
+    register("password");
+    getCurrentLocation();        
+  }, [register]);
 
 
   const loginUser = (data) => {
