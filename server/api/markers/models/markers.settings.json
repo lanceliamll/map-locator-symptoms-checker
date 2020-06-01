@@ -24,6 +24,9 @@
     },
     "description": {
       "type": "string"
+    },
+    "data": {
+      "type": "json"
     }
   }
 }

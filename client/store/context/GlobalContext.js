@@ -4,16 +4,7 @@ import axios from "axios";
 
 const initialState = {
   auth: null,
-  markers: [
-    {
-      latlng: {
-        longitude: 0,
-        latitude: 0
-      },
-      title: "Sample",
-      description: "Sample Description"
-    }
-  ],
+  markers: [],
   savedLocations: [],
   currentLocation: null,
   fetching: false,
@@ -47,11 +38,11 @@ export const GlobalProvider = ({ children }) => {
   }
 
   const getAllMarkers = async () => {
+    dispatch({
+      type: "FETCH",
+      payload: true
+    });
     try {
-      dispatch({
-        type: "FETCH",
-        payload: true
-      });
       const res = await axios.get("http://192.168.100.18:1337/markers", {
         headers: {
           "Content-Type": "application/json"
@@ -70,7 +61,7 @@ export const GlobalProvider = ({ children }) => {
     } catch (error) {
       console.error("Get all markers error", error);
     }
-  }
+  };
 
   const saveLocation = async (data) => {
 
@@ -103,7 +94,7 @@ export const GlobalProvider = ({ children }) => {
           })
         },
         error => console.log(error),
-        { enableHighAccuracy: true, timeout: 30000, maximumAge: 1000 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
       );
     } catch (error) {
       console.log("Error getting location", error)
