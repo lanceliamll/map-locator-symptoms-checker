@@ -27,6 +27,12 @@
     },
     "data": {
       "type": "json"
+    },
+    "symptoms": {
+      "type": "json"
+    },
+    "mobileNumber": {
+      "type": "string"
     }
   }
 }

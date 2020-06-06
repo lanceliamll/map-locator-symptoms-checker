@@ -8,7 +8,7 @@ const AddReportStack = createStackNavigator();
 const AddReportStackScreen = () => {
   return (
     <AddReportStack.Navigator>
-      <AddReportStack.Screen name="AddReport" component={AddReport}/>
+      <AddReportStack.Screen name="Report Location" component={AddReport}/>
     </AddReportStack.Navigator>
   )
 }
